@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import Typography from "@mui/material/Typography";
+import CssBaseline from "@mui/material/CssBaseline";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
+import Post from "./post";
+import moment from "moment";
+
+
+let blogContent = [{
+  date: moment().format("yyyy-MM-DD"),
+  title: "test Title",
+  content: "wtf content"
+},
+{
+  date: moment().format("yyyy-MM-DD"),
+  title: "test Title 2",
+  content: "wtf content 2"
+}]
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <CssBaseline />
+      <Grid container item justify="center" align="center">
+        <Container>
+          <Typography variant="h1" justify="center">
+            Blog
+          </Typography>
+        </Container>
+        <Container>
+          <Typography variant="overline">
+            The personal blog of Richard Marklund
+          </Typography>
+        </Container>
+        <Container>
+          <Typography variant="overline">
+          <Grid>{ blogContent.map(post =>  Post(post))}</Grid>
+          </Typography>
+        </Container>
+      </Grid>
     </div>
   );
 }
