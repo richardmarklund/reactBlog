@@ -4,60 +4,14 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Container, TextField, Button, Box } from "@mui/material";
-import { Grid } from "@mui/material";
-import Post from "./post";
-import { getBlogPosts, addBlogPost } from "./storage";
+import AddIcon from '@mui/icons-material/Add';
+import { Grid, Box, Container, IconButton } from "@mui/material";
+import { getBlogPosts } from "./storage";
 import { useState } from "react";
-import moment from "moment";
+import Post from "./post";
+import { Link } from 'react-router-dom';
 
-function TextInputComponent({ handleClick }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
-  return (
-    <Box>
-      <Box>
-        <Container>
-          <TextField
-            label="Title"
-            multiline
-            rows={1}
-            value={title}
-            onInput={(e) => setTitle(e.target.value)}
-          />
-        </Container>
-      </Box>
-      <Box pt={3}>
-        <Container>
-          <TextField
-            label="Content"
-            multiline
-            rows={10}
-            value={content}
-            onInput={(e) => setContent(e.target.value)}
-          />
-        </Container>
-        <Box />
-        <Box></Box>
-        <Container>
-          <Button
-            variant="text"
-            onClick={() =>
-              handleClick({
-                title: title,
-                content: content,
-                date: moment().format("YYYY-MM-DD"),
-              })
-            }
-          >
-            Save
-          </Button>
-        </Container>
-      </Box>
-    </Box>
-  );
-}
 function BlogPostsComponent({ posts }) {
   return (
     <Box>
@@ -71,13 +25,7 @@ function BlogPostsComponent({ posts }) {
 }
 
 function App() {
-  const [posts, setPosts] = useState(getBlogPosts());
-  const handleClick = (post) => {
-    setPosts([post, ...posts]);
-    console.log(post)
-    addBlogPost(post);
-  };
-
+  const [posts] = useState(getBlogPosts());
   return (
     <div>
       <CssBaseline />
@@ -91,7 +39,7 @@ function App() {
           </Typography>
         </Container>
         <BlogPostsComponent posts={posts} />
-        <TextInputComponent handleClick={handleClick} />
+        <IconButton component={Link} to="/addPost"> <AddIcon /> </IconButton>
       </Grid>
     </div>
   );
