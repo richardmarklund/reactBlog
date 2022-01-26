@@ -1,16 +1,24 @@
 import { Container, TextField, Button, Box } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import { addBlogPost } from "./storage";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const addPost = (post) => {
-  addBlogPost(post);
+const addPost = (post,items) => {
+  console.log(JSON.stringify(post))
+
+  fetch('https://bold-breeze-2695.fly.dev/post', {
+  method: "POST",
+  body: JSON.stringify(post),
+  headers: {"Content-type": "application/json; charset=UTF-8"}
+  })
+  items.unshift(post);
 };
 
-function AddBlogPostComponent(props) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+function AddBlogPostComponent() {
+  const [topic, setTopic] = useState("");
+  const [body, setBody] = useState("");
+  const items = useLocation().state
+  console.log(useLocation().state)
 
   return (
     <Box>
@@ -20,8 +28,8 @@ function AddBlogPostComponent(props) {
             label="Title"
             multiline
             rows={1}
-            value={title}
-            onInput={(e) => setTitle(e.target.value)}
+            value={topic}
+            onInput={(e) => setTopic(e.target.value)}
           />
         </Container>
       </Box>
@@ -31,8 +39,8 @@ function AddBlogPostComponent(props) {
             label="Content"
             multiline
             rows={10}
-            value={content}
-            onInput={(e) => setContent(e.target.value)}
+            value={body}
+            onInput={(e) => setBody(e.target.value)}
           />
         </Container>
         <Box />
@@ -47,10 +55,10 @@ function AddBlogPostComponent(props) {
             to="/"
             onClick={() =>
               addPost({
-                title: title,
-                content: content,
-                date: moment().format("YYYY-MM-DD"),
-              })
+                topic: topic,
+                body: body,
+                date: moment().format('YYYY-MM-DD').toString(),
+              },items)
             }
           >
             Save
