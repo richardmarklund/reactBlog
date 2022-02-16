@@ -3,27 +3,24 @@ import { Grid, Container, Box, Divider, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import moment from "moment";
-import {useItems} from './PostState';
+import { useItems } from "./PostState";
 
-
-function Post(post) {
-  const [items, setItems] = useItems();
+function Post(post, setItems, items) {
 
   const removePost = async () => {
-
-    fetch("http://localhost:3002/delete", {
+    fetch("https://bold-breeze-2695.fly.dev/delete", {
       method: "DELETE",
       headers: {
-        'Content-type': 'application/json; charset=UTF-8'
-       },
-      body:  JSON.stringify({id: post.id}) ,
-    }).then(data => {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ id: post.id }),
+    }).then((data) => {
       if (data.ok) {
         setItems(items.filter((item) => item.id !== post.id));
       }
     });
-  }
-  
+  };
+
   return (
     <Box pt={3} style={{ whiteSpace: "pre-wrap" }}>
       <Divider ligtht="true" variant="middle" />
@@ -51,7 +48,6 @@ function Post(post) {
   );
 }
 
-
 function PostComponent() {
   const [items, setItems] = useItems();
 
@@ -73,7 +69,6 @@ function PostComponent() {
       );
   }, [setItems]);
 
-
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -81,7 +76,7 @@ function PostComponent() {
   } else {
     return (
       <Container>
-        <Grid>{items.map((post) => Post(post))}</Grid>
+        <Grid>{items.map((post) => Post(post, setItems, items))}</Grid>
       </Container>
     );
   }
