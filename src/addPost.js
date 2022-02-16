@@ -1,24 +1,29 @@
 import { Container, TextField, Button, Box } from "@mui/material";
 import moment from "moment";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import {useItems} from './PostState';
 
-const addPost = (post,items) => {
-  console.log(JSON.stringify(post))
 
-  fetch('https://bold-breeze-2695.fly.dev/post', {
-  method: "POST",
-  body: JSON.stringify(post),
-  headers: {"Content-type": "application/json; charset=UTF-8"}
-  })
-  items.unshift(post);
-};
+
 
 function AddBlogPostComponent() {
   const [topic, setTopic] = useState("");
   const [body, setBody] = useState("");
-  const items = useLocation().state
-  console.log(useLocation().state)
+  const [items, setItems] = useItems();
+  const addPost = async (post) => {
+    await fetch('https://bold-breeze-2695.fly.dev/post', {
+    method: "POST",
+    body: JSON.stringify(post),
+    headers: {"Content-type": "application/json; charset=UTF-8"}
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      post.id = data;
+      setItems([post,...items])
+    })
+  
+  };
 
   return (
     <Box>
@@ -57,8 +62,8 @@ function AddBlogPostComponent() {
               addPost({
                 topic: topic,
                 body: body,
-                date: moment().format('YYYY-MM-DD').toString(),
-              },items)
+                date: moment().format('YYYY-MM-DD').toString()
+              })
             }
           >
             Save
