@@ -8,5 +8,3 @@ services:
     command: npm run start
     ports:
       - "3000:3000"
-    environment:
-      DEBUG: nodejs-docker-express:*
