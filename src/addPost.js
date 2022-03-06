@@ -1,13 +1,16 @@
 import { Container, TextField, Button, Box } from "@mui/material";
 import moment from "moment";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useItems } from "./PostState";
+import JoditEditor from "jodit-react";
 
 function AddBlogPostComponent() {
   const [topic, setTopic] = useState("");
   const [body, setBody] = useState("");
   const [items, setItems] = useItems();
+  const editor = useRef(null);
+
   const addPost = async (post) => {
     await fetch("https://bold-breeze-2695.fly.dev/post", {
       method: "POST",
@@ -38,12 +41,11 @@ function AddBlogPostComponent() {
       </Box>
       <Box pt={3}>
         <Container>
-          <TextField
-            label="Content"
-            multiline
-            rows={10}
+          <JoditEditor
+            ref={editor}
             value={body}
-            onInput={(e) => setBody(e.target.value)}
+            tabIndex={1}
+            onBlur={(newContent) => setBody(newContent)} // preferred to use only this option to update the content for performance reasons
           />
         </Container>
         <Box />

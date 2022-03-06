@@ -1,9 +1,11 @@
 import Typography from "@mui/material/Typography";
-import { Grid, Container, Box, Divider, IconButton } from "@mui/material";
+import { Grid, Container, Box, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import moment from "moment";
 import { useItems } from "./PostState";
+import parse from 'html-react-parser';
+
 
 async function fetchPosts() {
   const res = await fetch("https://bold-breeze-2695.fly.dev/getFirstPosts");
@@ -29,28 +31,45 @@ function Post(post, setItems, items) {
 
   return (
     <div key={post.id}>
-      <Box pt={3} style={{ whiteSpace: "pre-wrap" }}>
-        <Divider ligtht="true" variant="middle" />
-        <Box pt={3}>
+      <Box pt={10} style={{ whiteSpace: "pre-wrap" }}>
+        <Container>
           <Container>
-            <Container align="right">
-              <IconButton
-                onClick={() => {
-                  removePost();
-                }}
-              >
-                <RemoveIcon fontSize="10pt" />
-              </IconButton>
-            </Container>
-            <Typography component="h2" variant="h5">
-              {post.topic}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              {moment(post.date).format("YYYY-MM-DD").toString()}
-            </Typography>
-            <Typography>{post.body}</Typography>
+            <Grid container>
+              <Grid item xs></Grid>
+              <Grid item xs={6}>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  {post.topic}
+                </Typography>
+              </Grid>
+              <Grid item xs align="right">
+                <IconButton
+                  onClick={() => {
+                    removePost();
+                  }}
+                >
+                  <RemoveIcon fontSize="10pt" />
+                </IconButton>
+              </Grid>
+            </Grid>
           </Container>
-        </Box>
+          <Grid container>
+            <Grid xs>
+              </Grid>
+            <Grid item xs={8}>
+              <Typography variant="subtitle1" color="textSecondary" paragraph>
+                {moment(post.date).format("YYYY-MM-DD").toString()}
+              </Typography>
+              {parse(post.body)}
+            </Grid>
+            <Grid xs>
+              </Grid>
+          </Grid>
+        </Container>
       </Box>
     </div>
   );
