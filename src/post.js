@@ -8,13 +8,13 @@ import parse from 'html-react-parser';
 
 
 async function fetchPosts() {
-  const res = await fetch("192.168.1.2:3001/getFirstPosts");
+  const res = await fetch("http://192.168.1.2:3001/getFirstPosts")
   return res.json();
 }
 
 function Post(post, setItems, items) {
   const removePost = async () => {
-    fetch("192.168.1.2/delete", {
+    fetch("http://192.168.1.2/delete", {
       method: "DELETE",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

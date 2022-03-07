@@ -12,7 +12,7 @@ function AddBlogPostComponent() {
   const editor = useRef(null);
 
   const addPost = async (post) => {
-    await fetch("https://bold-breeze-2695.fly.dev/post", {
+    await fetch("http://192.168.1.2:3001/post", {
       method: "POST",
       body: JSON.stringify(post),
       headers: { "Content-type": "application/json; charset=UTF-8" },
