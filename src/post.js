@@ -14,7 +14,7 @@ async function fetchPosts() {
 
 function Post(post, setItems, items) {
   const removePost = async () => {
-    fetch("http://192.168.1.2/delete", {
+    fetch("http://192.168.1.2:3001/delete", {
       method: "DELETE",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
