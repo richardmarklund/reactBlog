@@ -8,13 +8,13 @@ import parse from 'html-react-parser';
 
 
 async function fetchPosts() {
-  const res = await fetch("https://bold-breeze-2695.fly.dev/getFirstPosts");
-  return await res.json();
+  const res = await fetch("192.168.1.2:3001/getFirstPosts");
+  return res.json();
 }
 
 function Post(post, setItems, items) {
   const removePost = async () => {
-    fetch("https://bold-breeze-2695.fly.dev/delete", {
+    fetch("192.168.1.2/delete", {
       method: "DELETE",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
