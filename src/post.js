@@ -58,7 +58,7 @@ function Post(post, setItems, items) {
           </Container>
           <Grid container>
           <Grid item xs/>
-            <Grid item xs={8} align="center">
+            <Grid item xs={8}>
               <Typography variant="subtitle1" color="textSecondary" paragraph>
                 {moment(post.date).format("YYYY-MM-DD").toString()}
               </Typography>
