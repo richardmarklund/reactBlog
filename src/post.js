@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import moment from "moment";
 import { useItems } from "./PostState";
-import parse from 'html-react-parser';
-
+import parse from "html-react-parser";
 
 async function fetchPosts() {
-  const res = await fetch("http://192.168.1.2:3001/getFirstPosts")
+  const res = await fetch("http://192.168.1.2:3001/getFirstPosts");
   return res.json();
 }
 
@@ -35,8 +34,8 @@ function Post(post, setItems, items) {
         <Container>
           <Container>
             <Grid container>
-              <Grid item xs></Grid>
-              <Grid item xs={6}>
+              <Grid item xs/>
+              <Grid item xs={6} align="center">
                 <Typography
                   component="h2"
                   variant="h5"
@@ -58,16 +57,14 @@ function Post(post, setItems, items) {
             </Grid>
           </Container>
           <Grid container>
-            <Grid xs>
-              </Grid>
-            <Grid item xs={8}>
+          <Grid item xs/>
+            <Grid item xs={8} align="center">
               <Typography variant="subtitle1" color="textSecondary" paragraph>
                 {moment(post.date).format("YYYY-MM-DD").toString()}
               </Typography>
               {parse(post.body)}
             </Grid>
-            <Grid xs>
-              </Grid>
+            <Grid xs></Grid>
           </Grid>
         </Container>
       </Box>
