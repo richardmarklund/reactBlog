@@ -1,100 +1,88 @@
-import { Container, Button, Box } from "@mui/material";
+import { Container, Button, Box, TextField, Grid, Paper } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import moment from "moment";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useItems } from "./PostState";
-import Editor from "ckeditor5-custom-build/build/ckeditor";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import { styled } from "@mui/material/styles";
+import { uploadFile, addPost } from "./blogApi";
+
+const Input = styled("input")({
+  display: "none",
+});
 
 function AddBlogPostComponent() {
   const [blogPost, setBlogPost] = useState("");
   const [items, setItems] = useItems();
 
-  function uploadAdapter(loader) {
-    return {
-      upload: () => {
-        return new Promise((resolve, reject) => {
-          const body = new FormData();
-          loader.file.then((file) => {
-            body.append("image", file);
-            fetch(`http://192.168.1.2:3001/image`, {
-              method: "post",
-              body: body,
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                resolve({
-                  default: `http://192.168.1.2:3001/image/${res}`,
-                });
-              })
-              .catch((err) => {
-                reject(err);
-              });
-          });
-        });
-      },
-    };
-  }
-
-  function uploadPlugin(editor) {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-      return uploadAdapter(loader);
-    };
-  }
-
-  const addPost = async (post) => {
-    await fetch("http://192.168.1.2:3001/post", {
-      method: "POST",
-      body: JSON.stringify(post),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        post.id = data;
-        setItems([post, ...items]);
-      });
-  };
-
   return (
     <Box>
-      <Box pt={3}>
-        <Container>
-          <CKEditor
-            config={{
-              extraPlugins: [uploadPlugin],
-            }}
-            editor={Editor}
-            data={blogPost}
-            onChange={(event, editor) => {
-              setBlogPost(editor.getData());
-            }}
-          />
-        </Container>
-        <Box />
-        <Box />
-        <Container>
-          <Button variant="text" component={Link} to="/">
-            Cancel
-          </Button>
-          <Button
-            variant="text"
-            component={Link}
-            to="/"
-            onClick={() => {
-              console.log(blogPost.substring(blogPost.search(`</h1>`)+5))
-              addPost({
-                topic: blogPost.substring(4, blogPost.search(`</h1>`)),
-                body: blogPost.substring(blogPost.search(`</h1>`)+5),
-                date: moment().format(`YYYY-DD-MM`),
-              });
-            }}
+      <Grid container sx={{ pt: 4 }}>
+        <Grid item xs={6}>
+          <Container>
+            <TextField
+              fullWidth
+              id="outlined-textarea"
+              rows={30}
+              multiline
+              value={blogPost}
+              onChange={(e) => {
+                setBlogPost(e.target.value);
+              }}
+            />
+          </Container>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper
+            variant="outlined"
+            sx={{ maxHeight: 722, height: 722, overflow: "auto" }}
           >
-            Save
-          </Button>
-        </Container>
-      </Box>
+            <Typography component={"span"} align="left">
+              <ReactMarkdown rehypePlugins={[rehypeRaw]} children={blogPost} />
+            </Typography>
+          </Paper>
+        </Grid>
+        <Box />
+        <Box />
+        <Grid container>
+          <Grid item xs={3} sx={{ pl: 4, pt: 1 }}>
+            <label htmlFor="contained-button-file">
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                onChange={(f) => uploadFile(f.target.files[0],blogPost,setBlogPost)}
+              />
+              <Button variant="contained" component="span">
+                Upload
+              </Button>
+            </label>
+          </Grid>
+          <Grid item xs={2} sx={{ pt: 1, pl: 6, pb: 1 }} align="right">
+            <Button variant="text" component={Link} to="/">
+              Cancel
+            </Button>
+          </Grid>
+          <Grid item xs sx={{ pt: 1, pl: 6, pb: 1 }} align="left">
+            <Button
+              variant="text"
+              component={Link}
+              to="/"
+              onClick={() => {
+                addPost({
+                  body: blogPost,
+                  date: moment().format(`YYYY-MM-DD`),
+                },items,setItems);
+              }}
+            >
+              Save
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
     </Box>
   );
 }

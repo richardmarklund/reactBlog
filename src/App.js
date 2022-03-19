@@ -6,8 +6,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import AddIcon from "@mui/icons-material/Add";
 import { Grid, Container, IconButton } from "@mui/material";
-import PostComponent from "./post";
 import { useNavigate } from "react-router-dom";
+import BlogComponent from "./blog";
 
 function AddButton() {
   let navigate = useNavigate();
@@ -35,7 +35,7 @@ function App() {
             The personal blog of Richard Marklund
           </Typography>
         </Container>
-          <PostComponent />
+          <BlogComponent />
           <Container>
             <AddButton />
           </Container>
