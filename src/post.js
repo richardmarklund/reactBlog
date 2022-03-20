@@ -4,8 +4,24 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { removePost } from "./blogApi"
+import { useAuth } from "./auth"
+import { removePost } from "./blogApi";
 
+function RemovePost(props) {
+  const [auth] = useAuth();
+  if (auth.authenticated) {
+    return (
+      <IconButton
+        onClick={() => {
+          removePost(props.post, props.setItems);
+        }}
+      >
+        <RemoveIcon fontSize="10pt" />
+      </IconButton>
+    );
+  }
+  return null;
+}
 
 export function Post(post, setItems) {
   return (
@@ -25,24 +41,15 @@ export function Post(post, setItems) {
               </Typography>
             </Grid>
             <Grid item xs>
-              <IconButton
-                onClick={() => {
-                  removePost(post, setItems);
-                }}
-              >
-                <RemoveIcon fontSize="10pt" />
-              </IconButton>
+              <RemovePost post={post} setItems={setItems} />
             </Grid>
           </Grid>
           <Grid item>
             <Typography component={"span"} align="left">
-              <ReactMarkdown
-                rehypePlugins={[rehypeRaw]}
-                children={post.body}
-              />
+              <ReactMarkdown rehypePlugins={[rehypeRaw]} children={post.body} />
             </Typography>
           </Grid>
-          <Grid item xs/>
+          <Grid item xs />
         </Container>
       </Box>
     </div>

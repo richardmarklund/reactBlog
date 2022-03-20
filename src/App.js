@@ -4,23 +4,9 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import AddIcon from "@mui/icons-material/Add";
-import { Grid, Container, IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Grid, Container } from "@mui/material";
 import BlogComponent from "./blog";
 
-function AddButton() {
-  let navigate = useNavigate();
-  function onClick() {
-    navigate("/addPost");
-  }
-
-  return (
-    <IconButton onClick={onClick}>
-      <AddIcon />
-    </IconButton>
-  );
-}
 
 function App() {
   return (
@@ -36,9 +22,6 @@ function App() {
           </Typography>
         </Container>
           <BlogComponent />
-          <Container>
-            <AddButton />
-          </Container>
       </Grid>
     </div>
   );
