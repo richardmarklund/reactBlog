@@ -4,7 +4,7 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AddBlogPostComponent } from "./addPost";
 import { PostProvider } from "./PostState";
-import { AuthProvider } from "./auth"
+import { AuthProvider } from "./authState"
 import { LoginComponent } from "./login"
 
 ReactDOM.render(

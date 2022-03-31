@@ -1,8 +1,15 @@
-const url = 'http://192.168.1.2:3001'
+const url = "http://192.168.1.2:3001";
 
+export const loginUser = async (username, password) => {
+  return await fetch(`${url}/authenticate`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: username, password: password }),
+  });
+};
 
 export async function fetchPosts() {
-  const res = await fetch(`${url}/getFirstPosts`);
+  const res = await fetch(`${url}/getPosts`);
   return res.json();
 }
 
@@ -16,7 +23,7 @@ export const removePost = async (post, setItems) => {
   }).then((data) => {
     if (data.ok) {
       fetchPosts().then((result) => {
-        setItems(result);
+        setItems(result.data);
       });
     }
   });
@@ -43,7 +50,9 @@ export const addPost = async (post, items, setItems) => {
   await fetch(`${url}/post`, {
     method: "POST",
     body: JSON.stringify(post),
-    headers: { "Content-type": "application/json; charset=UTF-8" },
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
   })
     .then((response) => {
       return response.json();

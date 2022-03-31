@@ -4,7 +4,7 @@ import moment from "moment";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useItems } from "./PostState";
-import { useAuth } from "./auth"
+import { useAuth } from "./authState";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { styled } from "@mui/material/styles";
@@ -31,7 +31,7 @@ function AddBlogPostComponent() {
                 multiline
                 value={blogPost}
                 onChange={(e) => {
-                  setBlogPost(e.target.value);
+                  setBlogPost(e.target.value, auth);
                 }}
               />
             </Container>

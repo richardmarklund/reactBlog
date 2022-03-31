@@ -4,7 +4,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { useAuth } from "./auth"
+import { useAuth } from "./authState"
 import { removePost } from "./blogApi";
 
 function RemovePost(props) {
