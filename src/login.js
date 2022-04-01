@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./authState";
 import { loginUser } from "./blogApi";
+import { useCookies } from 'react-cookie';
 
 const theme = createTheme();
 
@@ -20,20 +21,20 @@ export const LoginComponent = () => {
   const [, setAuth] = useAuth();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [cookies, setCookie] = useCookies(['token']);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const token = await loginUser({
+    const token = await loginUser(
       username,
       password
-    });
+    );
 
     if (token.status === 200) {
-      setAuth({
-        authenticated: true,
-        token: token,
+      token.json().then(t => {
+        setCookie('token', t);
       })
-      sessionStorage.setItem('token', JSON.stringify(token));
+      setAuth(true)
       navigate("/addPost");
     }
   };

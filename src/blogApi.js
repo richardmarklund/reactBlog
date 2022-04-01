@@ -1,7 +1,7 @@
-const url = "http://192.168.1.2:3001";
+const url = "http://localhost:3001";
 
 export const loginUser = async (username, password) => {
-  return await fetch(`${url}/authenticate`, {
+  return await fetch(`${url}/login`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username: username, password: password }),
@@ -16,6 +16,8 @@ export async function fetchPosts() {
 export const removePost = async (post, setItems) => {
   fetch(`${url}/delete`, {
     method: "DELETE",
+    credentials: 'include',
+    mode: 'cors',
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
@@ -34,6 +36,8 @@ export function uploadFile(file, blogPost, setBlogPost) {
   body.append("image", file);
 
   fetch(`${url}/image`, {
+    credentials: 'include',
+    mode: 'cors',
     method: "post",
     body: body,
   })
@@ -49,11 +53,14 @@ export function uploadFile(file, blogPost, setBlogPost) {
 export const addPost = async (post, items, setItems) => {
   await fetch(`${url}/post`, {
     method: "POST",
+    credentials: "include",
+    mode: "cors",
     body: JSON.stringify(post),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
   })
+    .catch((err) => console.log(err))
     .then((response) => {
       return response.json();
     })

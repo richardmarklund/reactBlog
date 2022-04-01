@@ -18,7 +18,7 @@ function AddBlogPostComponent() {
   const [blogPost, setBlogPost] = useState("");
   const [items, setItems] = useItems();
   const [auth] = useAuth();
-  if (auth.authenticated) {
+  if (auth) {
     return (
       <Box>
         <Grid container sx={{ pt: 4 }}>

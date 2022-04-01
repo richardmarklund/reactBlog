@@ -9,7 +9,7 @@ import { removePost } from "./blogApi";
 
 function RemovePost(props) {
   const [auth] = useAuth();
-  if (auth.authenticated) {
+  if (auth) {
     return (
       <IconButton
         onClick={() => {
