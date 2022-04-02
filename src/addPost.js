@@ -2,23 +2,66 @@ import { Container, Button, Box, TextField, Grid, Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useItems } from "./PostState";
-import { useAuth } from "./authState";
+import { useCookies } from "react-cookie";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { styled } from "@mui/material/styles";
-import { uploadFile, addPost } from "./blogApi";
+import { uploadFile, addPost, updatePost} from "./blogApi";
 
 const Input = styled("input")({
   display: "none",
 });
 
-function AddBlogPostComponent() {
-  const [blogPost, setBlogPost] = useState("");
+const SaveButton = (props) => {
   const [items, setItems] = useItems();
-  const [auth] = useAuth();
-  if (auth) {
+  if (props.oldState) {
+    return <Button
+    variant="text"
+    component={Link}
+    to="/"
+    onClick={() => {
+      updatePost(
+        {
+          id: props.oldState.id,
+          body: props.blogPost,
+        },
+        items,
+        setItems
+      );
+    }}
+  >
+    Save
+  </Button>;
+  } else {
+   return <Button
+      variant="text"
+      component={Link}
+      to="/"
+      onClick={() => {
+        addPost(
+          {
+            body: props.blogPost,
+            date: moment().format(`YYYY-MM-DD`),
+          },
+          items,
+          setItems
+        );
+      }}
+    >
+      Save
+    </Button>;
+  }
+};
+
+const AddBlogPostComponent = () => {
+  const { state } = useLocation();
+  const [blogPost, setBlogPost] = useState(state ? state.body : "");
+  const [cookies] = useCookies(['token']);
+
+  if (cookies.token) {
     return (
       <Box>
         <Grid container sx={{ pt: 4 }}>
@@ -31,7 +74,7 @@ function AddBlogPostComponent() {
                 multiline
                 value={blogPost}
                 onChange={(e) => {
-                  setBlogPost(e.target.value, auth);
+                  setBlogPost(e.target.value);
                 }}
               />
             </Container>
@@ -74,23 +117,7 @@ function AddBlogPostComponent() {
               </Button>
             </Grid>
             <Grid item xs sx={{ pt: 1, pl: 6, pb: 1 }} align="left">
-              <Button
-                variant="text"
-                component={Link}
-                to="/"
-                onClick={() => {
-                  addPost(
-                    {
-                      body: blogPost,
-                      date: moment().format(`YYYY-MM-DD`),
-                    },
-                    items,
-                    setItems
-                  );
-                }}
-              >
-                Save
-              </Button>
+              <SaveButton blogPost={blogPost} oldState={state} />
             </Grid>
           </Grid>
         </Grid>
@@ -99,6 +126,6 @@ function AddBlogPostComponent() {
   } else {
     return <Typography>You are not allowed here</Typography>;
   }
-}
+};
 
 export { AddBlogPostComponent };

@@ -69,3 +69,23 @@ export const addPost = async (post, items, setItems) => {
       setItems([post, ...items]);
     });
 };
+
+export const updatePost = async (post, items, setItems) => {
+  await fetch(`${url}/post`, {
+    method: "PUT",
+    credentials: "include",
+    mode: "cors",
+    body: JSON.stringify(post),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .catch((err) => console.log(err))
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      post.id = data;
+      setItems([post, ...items]);
+    });
+};

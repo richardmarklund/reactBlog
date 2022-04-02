@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./authState";
 import { loginUser } from "./blogApi";
 import { useCookies } from 'react-cookie';
 
@@ -18,10 +17,9 @@ const theme = createTheme();
 
 export const LoginComponent = () => {
   let navigate = useNavigate();
-  const [, setAuth] = useAuth();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [cookies, setCookie] = useCookies(['token']);
+  const [, setCookie] = useCookies(['token']);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,7 +32,6 @@ export const LoginComponent = () => {
       token.json().then(t => {
         setCookie('token', t);
       })
-      setAuth(true)
       navigate("/addPost");
     }
   };

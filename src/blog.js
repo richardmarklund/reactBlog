@@ -1,20 +1,21 @@
 import { Grid, Container, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useItems } from "./PostState";
-import { useAuth } from "./authState";
 import { fetchPosts } from "./blogApi";
 import { Post } from "./post";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import { useCookies } from 'react-cookie';
+
 
 function AddButton() {
   let navigate = useNavigate();
   function onClick() {
     navigate("/addPost");
   }
-  const [auth] = useAuth();
+  const [cookies] = useCookies();
 
-  if (auth.authenticated) {
+  if (cookies) {
     return (
       <IconButton onClick={onClick}>
         <AddIcon />

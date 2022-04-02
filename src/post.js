@@ -1,23 +1,37 @@
 import Typography from "@mui/material/Typography";
 import { Grid, Container, Box, IconButton } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
+import EditIcon from '@mui/icons-material/Edit';
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { useAuth } from "./authState"
 import { removePost } from "./blogApi";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
-function RemovePost(props) {
-  const [auth] = useAuth();
-  if (auth) {
+
+
+const AddButtons = (props) => {
+  const navigate = useNavigate();
+  const [cookies] = useCookies();
+  if (cookies.token) {
     return (
-      <IconButton
-        onClick={() => {
-          removePost(props.post, props.setItems);
-        }}
-      >
-        <RemoveIcon fontSize="10pt" />
-      </IconButton>
+      <Container>
+        <IconButton
+          onClick={() => {
+            removePost(props.post, props.setItems);
+          }}
+        >
+          <RemoveIcon fontSize="10pt" />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            navigate('/addPost', {state: props.post})
+          }}
+        >
+          <EditIcon fontSize="10pt" />
+        </IconButton>
+      </Container>
     );
   }
   return null;
@@ -41,7 +55,7 @@ export function Post(post, setItems) {
               </Typography>
             </Grid>
             <Grid item xs>
-              <RemovePost post={post} setItems={setItems} />
+              <AddButtons post={post} setItems={setItems} />
             </Grid>
           </Grid>
           <Grid item>
