@@ -15,7 +15,7 @@ function AddButton() {
   }
   const [cookies] = useCookies();
 
-  if (cookies) {
+  if (cookies.token) {
     return (
       <IconButton onClick={onClick}>
         <AddIcon />

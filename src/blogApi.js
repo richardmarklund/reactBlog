@@ -1,7 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config()
-
-const url = process.env.API_SERVER_URL
+const url = 'http://192.168.1.2:3001'
 
 export const loginUser = async (username, password) => {
   return await fetch(`${url}/login`, {
@@ -13,6 +10,7 @@ export const loginUser = async (username, password) => {
 
 export async function fetchPosts() {
   const res = await fetch(`${url}/getPosts`);
+
   return res.json();
 }
 
