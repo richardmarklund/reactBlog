@@ -1,4 +1,7 @@
-const url = "http://localhost:3001";
+import dotenv from "dotenv";
+dotenv.config()
+
+const url = process.env.API_SERVER_URL
 
 export const loginUser = async (username, password) => {
   return await fetch(`${url}/login`, {
@@ -70,7 +73,7 @@ export const addPost = async (post, items, setItems) => {
     });
 };
 
-export const updatePost = async (post, items, setItems) => {
+export const updatePost = async (post, setItems) => {
   await fetch(`${url}/post`, {
     method: "PUT",
     credentials: "include",
@@ -81,11 +84,8 @@ export const updatePost = async (post, items, setItems) => {
     },
   })
     .catch((err) => console.log(err))
-    .then((response) => {
-      return response.json();
+    
+  fetchPosts().then(res => {
+    setItems(res.data);
     })
-    .then((data) => {
-      post.id = data;
-      setItems([post, ...items]);
-    });
 };

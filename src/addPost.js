@@ -9,7 +9,7 @@ import { useCookies } from "react-cookie";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { styled } from "@mui/material/styles";
-import { uploadFile, addPost, updatePost} from "./blogApi";
+import { uploadFile, addPost, updatePost } from "./blogApi";
 
 const Input = styled("input")({
   display: "none",
@@ -18,48 +18,51 @@ const Input = styled("input")({
 const SaveButton = (props) => {
   const [items, setItems] = useItems();
   if (props.oldState) {
-    return <Button
-    variant="text"
-    component={Link}
-    to="/"
-    onClick={() => {
-      updatePost(
-        {
-          id: props.oldState.id,
-          body: props.blogPost,
-        },
-        items,
-        setItems
-      );
-    }}
-  >
-    Save
-  </Button>;
+    return (
+      <Button
+        variant="text"
+        component={Link}
+        to="/"
+        onClick={() => {
+          updatePost(
+            {
+              id: props.oldState.id,
+              body: props.blogPost,
+            },
+            setItems
+          );
+        }}
+      >
+        Save
+      </Button>
+    );
   } else {
-   return <Button
-      variant="text"
-      component={Link}
-      to="/"
-      onClick={() => {
-        addPost(
-          {
-            body: props.blogPost,
-            date: moment().format(`YYYY-MM-DD`),
-          },
-          items,
-          setItems
-        );
-      }}
-    >
-      Save
-    </Button>;
+    return (
+      <Button
+        variant="text"
+        component={Link}
+        to="/"
+        onClick={() => {
+          addPost(
+            {
+              body: props.blogPost,
+              date: moment().format(`YYYY-MM-DD`),
+            },
+            items,
+            setItems
+          );
+        }}
+      >
+        Save
+      </Button>
+    );
   }
 };
 
 const AddBlogPostComponent = () => {
   const { state } = useLocation();
   const [blogPost, setBlogPost] = useState(state ? state.body : "");
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
 
   if (cookies.token) {
     return (
