@@ -1,4 +1,4 @@
-const url = 'http://192.168.1.2:3001'
+const url = 'http://backend.marklund.io'
 
 export const loginUser = async (username, password) => {
   return await fetch(`${url}/login`, {
