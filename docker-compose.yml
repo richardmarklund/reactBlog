@@ -13,6 +13,7 @@ services:
       - APP_NAME=blogFrontend
     labels:
       - traefik.enable=true
+      - "traefik.http.routers.whoami.entrypoints=web"
       - traefik.http.routers.kitchenservice.rule=Host(`marklund.io`)
     networks:
       - proxy
