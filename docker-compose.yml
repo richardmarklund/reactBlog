@@ -13,8 +13,8 @@ services:
       - APP_NAME=blogFrontend
     labels:
       - traefik.enable=true
-      - traefik.http.routers.whoami.entrypoints=web
-      - traefik.http.routers.kitchenservice.rule=Host(`marklund.io`)
+      - traefik.http.routers.blogFrontend.entrypoints=web
+      - traefik.http.routers.blogFrontend.rule=Host(`marklund.io`)
       - traefik.docker.network=ntw_front
       - traefik.frontend.entryPoints=http
     networks:
