@@ -3,5 +3,5 @@ WORKDIR /pappakeno/blog/backend
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 8081
+EXPOSE 3000
 CMD [ "node", "App.js" ]
