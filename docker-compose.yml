@@ -10,9 +10,9 @@ services:
       - 3000:3000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.blogFrontend.entrypoints=web
       - traefik.http.routers.blogFrontend.rule=Host(`marklund.io`)
-      - traefik.http.services.app-test.loadbalancer.server.port=3000
+      - "traefik.http.routers.blogFrontend.entrypoints=websecure"
+      - "traefik.http.routers.blogFrontend.tls.certresolver=marklundresolver"
       - traefik.docker.network=proxy
     networks:
       - proxy
