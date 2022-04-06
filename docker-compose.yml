@@ -16,3 +16,7 @@ services:
       - traefik.docker.network=proxy
     networks:
       - proxy
+networks:
+  proxy:
+    external:
+      name: "traefik_proxy"
