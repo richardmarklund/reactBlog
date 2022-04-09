@@ -15,8 +15,14 @@ services:
       - "traefik.http.routers.blogFrontend.tls.certresolver=marklundresolver"
       - traefik.docker.network=proxy
     networks:
-      - proxy
+      blog:
+       ipv4_address: 10.6.0.2
+
 networks:
-  proxy:
-    external:
-      name: "traefik_proxy"
+  blog:
+   name: blog
+   ipam:
+    driver: default
+    config:
+       - subnet: 10.6.0.0/16
+         gateway: 10.6.0.1
