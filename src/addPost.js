@@ -48,7 +48,6 @@ const SaveButton = (props) => {
               body: props.blogPost,
               date: moment().format(`YYYY-MM-DD`),
             },
-            items,
             setItems
           );
         }}

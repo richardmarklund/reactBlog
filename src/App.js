@@ -12,12 +12,12 @@ function App() {
   return (
     <div>
       <CssBaseline />
-      <Grid container direction="column" justifyContent="center" align="center">
-        <Container>
+      <Grid container direction="column" >
+        <Container align="center">
           <Typography variant="h1">Blog</Typography>
         </Container>
-        <Container>
-          <Typography variant="overline">
+        <Container align="center">
+          <Typography variant="overline" >
             The personal blog of Richard Marklund
           </Typography>
         </Container>

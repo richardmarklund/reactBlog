@@ -1,4 +1,4 @@
-const url = 'http://backend.marklund.io'
+const url = 'http://192.168.1.2:3001'
 
 export const loginUser = async (username, password) => {
   return await fetch(`${url}/login`, {
@@ -8,9 +8,13 @@ export const loginUser = async (username, password) => {
   });
 };
 
-export async function fetchPosts() {
-  const res = await fetch(`${url}/getPosts`);
-
+export async function fetchPosts(cookies) {
+  let res;
+  if (cookies?.token != undefined) {
+     res = await fetch(`${url}/getPosts`);
+  } else {
+     res = await fetch(`${url}/getPublishedPosts`);
+  }
   return res.json();
 }
 
@@ -51,7 +55,7 @@ export function uploadFile(file, blogPost, setBlogPost) {
     });
 }
 
-export const addPost = async (post, items, setItems) => {
+export const addPost = async (post, setItems) => {
   await fetch(`${url}/post`, {
     method: "POST",
     credentials: "include",
@@ -62,13 +66,11 @@ export const addPost = async (post, items, setItems) => {
     },
   })
     .catch((err) => console.log(err))
-    .then((response) => {
-      return response.json();
+    .then(() => {
+      fetchPosts().then(res => {
+        setItems(res.data);
+        })
     })
-    .then((data) => {
-      post.id = data;
-      setItems([post, ...items]);
-    });
 };
 
 export const updatePost = async (post, setItems) => {
@@ -86,4 +88,18 @@ export const updatePost = async (post, setItems) => {
   fetchPosts().then(res => {
     setItems(res.data);
     })
+};
+
+export const publishPost = async (post) => {
+  await fetch(`${url}/publishPost`, {
+    method: "PUT",
+    credentials: "include",
+    mode: "cors",
+    body: JSON.stringify(post),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .catch((err) => console.log(err))
+
 };

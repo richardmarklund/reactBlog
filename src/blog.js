@@ -8,14 +8,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { useCookies } from 'react-cookie';
 
 
-function AddButton() {
+function AddButton(props) {
   let navigate = useNavigate();
   function onClick() {
     navigate("/addPost");
   }
-  const [cookies] = useCookies();
 
-  if (cookies.token) {
+  if (props.cookies.token) {
     return (
       <IconButton onClick={onClick}>
         <AddIcon />
@@ -30,10 +29,12 @@ function BlogComponent() {
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [cookies] = useCookies();
 
   useEffect(() => {
-    fetchPosts().then(
+    fetchPosts(cookies).then(
       (result) => {
+        console.log(result)
         setIsLoaded(true);
         setItems(result.data);
       },
@@ -52,10 +53,10 @@ function BlogComponent() {
     return (
       <div>
         <Container>
-          <Grid>{items.map((post) => Post(post, setItems))}</Grid>
+          <Grid>{items.map((post) => Post(post, setItems, cookies))}</Grid>
         </Container>
         <Container>
-          <AddButton />
+          <AddButton cookies={cookies}/>
         </Container>
       </div>
     );
