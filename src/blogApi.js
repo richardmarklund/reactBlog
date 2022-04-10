@@ -1,4 +1,4 @@
-const url = 'http://10.6.0.4:3001'
+const url = 'http://192.168.1.2:3001'
 
 export const loginUser = async (username, password) => {
   return await fetch(`${url}/login`, {
