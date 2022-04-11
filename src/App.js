@@ -7,21 +7,22 @@ import "@fontsource/roboto/700.css";
 import { Grid, Container } from "@mui/material";
 import BlogComponent from "./blog";
 
-
 function App() {
   return (
     <div>
       <CssBaseline />
-      <Grid container direction="column" >
+      <Grid container direction="column">
         <Container align="center">
           <Typography variant="h1">Blog</Typography>
         </Container>
         <Container align="center">
-          <Typography variant="overline" >
+          <Typography variant="overline">
             The personal blog of Richard Marklund
           </Typography>
         </Container>
+        <Container align="center">
           <BlogComponent />
+        </Container>
       </Grid>
     </div>
   );

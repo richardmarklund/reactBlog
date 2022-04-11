@@ -11,15 +11,15 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "./blogApi";
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const theme = createTheme();
 
 export const LoginComponent = () => {
   let navigate = useNavigate();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [, setCookie] = useCookies(['token']);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,7 +30,7 @@ export const LoginComponent = () => {
 
     if (token.status === 200) {
       token.json().then(t => {
-        setCookie('token', t);
+        cookies.set('token', t,{ path: '/' });
       })
       navigate("/addPost");
     }

@@ -8,7 +8,9 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { removePost, publishPost } from "./blogApi";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const PublishButton = (props) => {
 
@@ -37,9 +39,8 @@ const RemoveButton = (props) => {
 
 const AddButtons = (props) => {
   const navigate = useNavigate();
-  const [cookies] = useCookies();
 
-  if (cookies.token) {
+  if (cookies.get("token")) {
     return (
       <Container>
         <IconButton
@@ -57,8 +58,8 @@ const AddButtons = (props) => {
   return null;
 };
 
-export function Post(post, setItems, cookies) {
-  if (post.isPublished || cookies.token) {
+export function Post(post, setItems) {
+  if (post.isPublished || cookies.get("token")) {
     return (
       <div key={post.id}>
         <Box pt={10}>
@@ -79,7 +80,7 @@ export function Post(post, setItems, cookies) {
                 <AddButtons post={post} setItems={setItems} />
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid item width="80%">
               <Typography component={"span"} align="left">
                 <ReactMarkdown
                   rehypePlugins={[rehypeRaw]}

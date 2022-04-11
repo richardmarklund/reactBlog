@@ -5,16 +5,17 @@ import { fetchPosts } from "./blogApi";
 import { Post } from "./post";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 
-function AddButton(props) {
+function AddButton() {
   let navigate = useNavigate();
   function onClick() {
     navigate("/addPost");
   }
 
-  if (props.cookies.token) {
+  if (cookies.get("token")) {
     return (
       <IconButton onClick={onClick}>
         <AddIcon />
@@ -29,10 +30,9 @@ function BlogComponent() {
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [cookies] = useCookies();
 
   useEffect(() => {
-    fetchPosts(cookies).then(
+    fetchPosts().then(
       (result) => {
         console.log(result)
         setIsLoaded(true);
@@ -53,10 +53,10 @@ function BlogComponent() {
     return (
       <div>
         <Container>
-          <Grid>{items.map((post) => Post(post, setItems, cookies))}</Grid>
+          <Grid>{items.map((post) => Post(post, setItems))}</Grid>
         </Container>
         <Container>
-          <AddButton cookies={cookies}/>
+          <AddButton/>
         </Container>
       </div>
     );

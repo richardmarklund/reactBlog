@@ -1,3 +1,7 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 const url = 'http://192.168.1.2:3001'
 
 export const loginUser = async (username, password) => {
@@ -8,9 +12,9 @@ export const loginUser = async (username, password) => {
   });
 };
 
-export async function fetchPosts(cookies) {
+export async function fetchPosts() {
   let res;
-  if (cookies?.token != undefined) {
+  if (!cookies.get("token")) {
      res = await fetch(`${url}/getPosts`);
   } else {
      res = await fetch(`${url}/getPublishedPosts`);

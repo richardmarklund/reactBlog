@@ -5,18 +5,20 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useItems } from "./PostState";
-import { useCookies } from "react-cookie";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { styled } from "@mui/material/styles";
 import { uploadFile, addPost, updatePost } from "./blogApi";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const Input = styled("input")({
   display: "none",
 });
 
 const SaveButton = (props) => {
-  const [items, setItems] = useItems();
+  const [ , setItems] = useItems();
   if (props.oldState) {
     return (
       <Button
@@ -61,9 +63,8 @@ const SaveButton = (props) => {
 const AddBlogPostComponent = () => {
   const { state } = useLocation();
   const [blogPost, setBlogPost] = useState(state ? state.body : "");
-  const [cookies] = useCookies(["token"]);
 
-  if (cookies.token) {
+  if (cookies.get("token")) {
     return (
       <Box>
         <Grid container sx={{ pt: 4 }}>
