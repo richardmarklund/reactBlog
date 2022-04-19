@@ -29,7 +29,7 @@ export const LoginComponent = () => {
       token.json().then((t) => {
         cookies.set("token", t, {
           path: "/",
-          secure: document.domain !== "localhost",
+          httpOnly: false,
         });
       });
       navigate("/addPost");
