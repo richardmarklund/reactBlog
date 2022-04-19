@@ -1,4 +1,4 @@
-import { React, useState} from "react";
+import { React, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,7 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "./blogApi";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 const theme = createTheme();
@@ -23,15 +23,15 @@ export const LoginComponent = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const token = await loginUser(
-      username,
-      password
-    );
+    const token = await loginUser(username, password);
 
     if (token.status === 200) {
-      token.json().then(t => {
-        cookies.set('token', t,{ path: '/' });
-      })
+      token.json().then((t) => {
+        cookies.set("token", t, {
+          path: "/",
+          secure: document.domain !== "localhost",
+        });
+      });
       navigate("/addPost");
     }
   };
@@ -69,7 +69,7 @@ export const LoginComponent = () => {
               name="username"
               autoComplete="username"
               autoFocus
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -80,7 +80,7 @@ export const LoginComponent = () => {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               type="submit"
