@@ -30,7 +30,8 @@ export const LoginComponent = () => {
         cookies.set("token", t, {
           path: "/",
           httpOnly: false,
-          secure: document.domain !== "localhost"
+          secure: document.domain !== "localhost",
+          domain: document.domain
         });
       });
       navigate("/addPost");
