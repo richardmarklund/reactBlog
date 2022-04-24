@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
-const url = 'https://backend.marklund.io'
+const url = 'http://localhost:3001'
 
 export const loginUser = async (username, password) => {
   return await fetch(`${url}/login`, {
