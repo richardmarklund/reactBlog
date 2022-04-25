@@ -1,0 +1,18 @@
+code {
+    display: block;
+    background:cornsilk	;
+    -webkit-overflow-scrolling: touch;
+    hyphens: manual;
+    max-width: 100%;
+    min-width: 100px;
+    padding: 5px;
+    border-radius: 25px;
+  }
+
+  pre {
+    white-space: pre-wrap; 
+    white-space: moz-pre-wrap; 
+    white-space: -pre-wrap; 
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
