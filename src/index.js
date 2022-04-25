@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AddBlogPostComponent } from "./addPost";
 import { PostProvider } from "./PostState";
 import { LoginComponent } from "./login";
+import "./App.css";
 
 ReactDOM.render(
   <React.StrictMode>
