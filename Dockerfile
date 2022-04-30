@@ -7,6 +7,6 @@ RUN  yarn build
 
 
 FROM nginx:1.19-alpine AS server
-COPY --from=builder ./app/build /app/nginx/html
+COPY --from=builder ./app/build /app
 COPY --from=builder ./app/nginx.conf /etc/nginx/conf.d/default.conf 
 EXPOSE 3000
